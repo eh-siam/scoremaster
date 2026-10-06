@@ -27,6 +27,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.EmojiEvents
@@ -43,6 +44,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -811,23 +813,53 @@ fun DashboardCompletedMatchCard(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Team Scores Summary Row
+            // Team 1 Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val inn1Text = "${inn1?.battingTeamName ?: match.team1Name} ${inn1?.totalRuns ?: 0}/${inn1?.totalWickets ?: 0}"
-                val inn2Text = if (inn2 != null) "${inn2.battingTeamName} ${inn2.totalRuns}/${inn2.totalWickets}" else ""
-
                 Text(
-                    text = if (inn2Text.isNotBlank()) "$inn1Text  vs  $inn2Text" else inn1Text,
-                    style = MaterialTheme.typography.bodyMedium,
+                    text = inn1?.battingTeamName ?: match.team1Name,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
+                val inn1Overs = inn1?.oversFormatted.orEmpty()
+                Text(
+                    text = "${inn1?.totalRuns ?: 0}/${inn1?.totalWickets ?: 0}${if (inn1Overs.isNotBlank()) " ($inn1Overs ov)" else ""}",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
 
+            // Team 2 Row
+            if (inn2 != null) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = inn2.battingTeamName,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    val inn2Overs = inn2.oversFormatted
+                    Text(
+                        text = "${inn2.totalRuns}/${inn2.totalWickets}${if (inn2Overs.isNotBlank()) " ($inn2Overs ov)" else ""}",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+
+            // Result Margin & View Action Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -855,12 +887,23 @@ fun DashboardCompletedMatchCard(
                     Spacer(modifier = Modifier.width(1.dp))
                 }
 
-                Text(
-                    text = "View →",
-                    style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text(
+                        text = "View Scorecard",
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
             }
         }
     }
