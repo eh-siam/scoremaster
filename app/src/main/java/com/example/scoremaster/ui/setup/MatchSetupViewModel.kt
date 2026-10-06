@@ -59,10 +59,38 @@ class MatchSetupViewModel(
         }
     }
 
+    fun addTeam1Player() {
+        val current = team1Players.value.toMutableList()
+        current.add("Player ${current.size + 1}")
+        team1Players.value = current
+    }
+
+    fun removeTeam1Player(index: Int) {
+        val current = team1Players.value.toMutableList()
+        if (current.size > 2 && index in current.indices) {
+            current.removeAt(index)
+            team1Players.value = current
+        }
+    }
+
     fun updateTeam2Player(index: Int, name: String) {
         val current = team2Players.value.toMutableList()
         if (index in current.indices) {
             current[index] = name
+            team2Players.value = current
+        }
+    }
+
+    fun addTeam2Player() {
+        val current = team2Players.value.toMutableList()
+        current.add("Player ${current.size + 1}")
+        team2Players.value = current
+    }
+
+    fun removeTeam2Player(index: Int) {
+        val current = team2Players.value.toMutableList()
+        if (current.size > 2 && index in current.indices) {
+            current.removeAt(index)
             team2Players.value = current
         }
     }

@@ -33,7 +33,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.LocationOn
@@ -307,8 +309,8 @@ fun MatchSetupScreen(
                                     Text(
                                         text = "🏏 Head-to-Head Match Details",
                                         style = MaterialTheme.typography.titleMedium,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.primary
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color(0xFF0B633D)
                                     )
 
                                     OutlinedTextField(
@@ -388,8 +390,8 @@ fun MatchSetupScreen(
                                     Text(
                                         text = "📋 ${team1Name.ifBlank { "Team 1" }} Squad Player Names",
                                         style = MaterialTheme.typography.titleMedium,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.primary
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color(0xFF0B633D)
                                     )
 
                                     team1Players.forEachIndexed { index, pName ->
@@ -398,6 +400,13 @@ fun MatchSetupScreen(
                                             onValueChange = { viewModel.updateTeam1Player(index, it) },
                                             label = { Text("Player ${index + 1}") },
                                             leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
+                                            trailingIcon = {
+                                                if (team1Players.size > 2) {
+                                                    IconButton(onClick = { viewModel.removeTeam1Player(index) }) {
+                                                        Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.error)
+                                                    }
+                                                }
+                                            },
                                             keyboardOptions = KeyboardOptions(
                                                 imeAction = if (index == team1Players.lastIndex) ImeAction.Done else ImeAction.Next
                                             ),
@@ -406,10 +415,24 @@ fun MatchSetupScreen(
                                             shape = RoundedCornerShape(10.dp)
                                         )
                                     }
+
+                                    OutlinedButton(
+                                        onClick = { viewModel.addTeam1Player() },
+                                        modifier = Modifier.fillMaxWidth(),
+                                        shape = RoundedCornerShape(10.dp)
+                                    ) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                        ) {
+                                            Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(18.dp))
+                                            Text("+ Add Player (${team1Players.size} Players)", fontWeight = FontWeight.Bold)
+                                        }
+                                    }
                                 }
                             }
 
-                            // Team 2 Playing 11 Card
+                            // Team 2 Playing Squad Card
                             Card(
                                 modifier = Modifier.fillMaxWidth(),
                                 shape = RoundedCornerShape(20.dp),
@@ -423,8 +446,8 @@ fun MatchSetupScreen(
                                     Text(
                                         text = "📋 ${team2Name.ifBlank { "Team 2" }} Squad Player Names",
                                         style = MaterialTheme.typography.titleMedium,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.primary
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color(0xFF0B633D)
                                     )
 
                                     team2Players.forEachIndexed { index, pName ->
@@ -433,6 +456,13 @@ fun MatchSetupScreen(
                                             onValueChange = { viewModel.updateTeam2Player(index, it) },
                                             label = { Text("Player ${index + 1}") },
                                             leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
+                                            trailingIcon = {
+                                                if (team2Players.size > 2) {
+                                                    IconButton(onClick = { viewModel.removeTeam2Player(index) }) {
+                                                        Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.error)
+                                                    }
+                                                }
+                                            },
                                             keyboardOptions = KeyboardOptions(
                                                 imeAction = if (index == team2Players.lastIndex) ImeAction.Done else ImeAction.Next
                                             ),
@@ -440,6 +470,20 @@ fun MatchSetupScreen(
                                             singleLine = true,
                                             shape = RoundedCornerShape(10.dp)
                                         )
+                                    }
+
+                                    OutlinedButton(
+                                        onClick = { viewModel.addTeam2Player() },
+                                        modifier = Modifier.fillMaxWidth(),
+                                        shape = RoundedCornerShape(10.dp)
+                                    ) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                        ) {
+                                            Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(18.dp))
+                                            Text("+ Add Player (${team2Players.size} Players)", fontWeight = FontWeight.Bold)
+                                        }
                                     }
                                 }
                             }
@@ -483,8 +527,8 @@ fun MatchSetupScreen(
                                     Text(
                                         text = "🔥 Tri-Series Information",
                                         style = MaterialTheme.typography.titleMedium,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.primary
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color(0xFF0B633D)
                                     )
 
                                     OutlinedTextField(
@@ -599,8 +643,8 @@ fun MatchSetupScreen(
                                     Text(
                                         text = "🏆 Tournament Information",
                                         style = MaterialTheme.typography.titleMedium,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.primary
+                                        fontWeight = FontWeight.ExtraBold,
+                                        color = Color(0xFF0B633D)
                                     )
 
                                     OutlinedTextField(
