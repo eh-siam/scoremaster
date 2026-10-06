@@ -28,6 +28,7 @@ class TournamentsListViewModel(
     private val tournamentsFlow = tournamentRepository.getAllTournaments()
 
     val uiState: StateFlow<TournamentsListUiState> = tournamentsFlow
+
         .flatMapLatest { tournaments ->
             if (tournaments.isEmpty()) {
                 flowOf(TournamentsListUiState(isLoading = false))
