@@ -32,6 +32,7 @@ class TournamentsListViewModel(
         .flatMapLatest { tournaments ->
             if (tournaments.isEmpty()) {
                 flowOf(TournamentsListUiState(isLoading = false))
+
             } else {
                 val tableFlows = tournaments.map { tournament ->
                     tournamentRepository.getPointsTableForTournament(tournament.id).map { table ->
